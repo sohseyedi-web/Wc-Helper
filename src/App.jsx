@@ -1,4 +1,3 @@
-
 import Location from "./components/location/Location"
 
 function App() {
