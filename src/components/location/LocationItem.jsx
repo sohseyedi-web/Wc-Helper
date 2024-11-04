@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { RiArrowDownSLine } from 'react-icons/ri'
-import { reverseGeoApi } from "../../service/mapService";
+import { reverseGeoApi, showLocGoogleMap } from "../../service/mapService";
+import useGeoLocation from './../../hooks/useGeoLocation';
 
 const LocationItem = ({ location }) => {
 
     const [openIndex, setOpenIndex] = useState(0);
     const [address, setAddress] = useState(null)
+    const { position } = useGeoLocation()
 
     // change active accordion box
     const toggleAccordion = async (index) => {
@@ -13,9 +15,14 @@ const LocationItem = ({ location }) => {
             setOpenIndex(-1);
         } else {
             setOpenIndex(index);
-            const data = await reverseGeoApi(location.coords[0], location.coords[1])
+            const data = await reverseGeoApi(location.coords.lat, location.coords.lng)
             setAddress(data)
         }
+    };
+
+    const handleNavigation = () => {
+        const url = showLocGoogleMap(position, location.coords)
+        window.open(url, '_blank');
     };
 
     const isActive = openIndex === location.id
@@ -35,8 +42,11 @@ const LocationItem = ({ location }) => {
                 <RiArrowDownSLine size={20} className={`text-[#c4c4c4] transition-all duration-300 ${isActive ? "rotate-180" : "rotate-0"}`} />
             </div>
             {isActive ? (
-                <div className="accordion-content pt-8 overflow-hidden transition-all">
+                <div className="accordion-content pt-8 overflow-hidden transition-all flex items-center justify-between">
                     <p className="font-semibold">{address?.formatted_address}</p>
+                    <button onClick={handleNavigation} className="bg-[#141414] p-2 rounded-lg text-[#fefefe]">
+                        نمایش مسیر
+                    </button>
                 </div>
             ) : null}
         </div>
