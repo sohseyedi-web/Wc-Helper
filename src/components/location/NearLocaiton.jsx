@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import { calculateDistance } from '../../utils/calcDistance'
-import { points } from './../../constant/position';
 import LocationItem from './LocationItem';
+import { getLocationListApi } from '../../service/locationService';
 
 const NearLocaiton = ({ position }) => {
     const [sortList, setSortList] = useState([])
+    const [points, setPoints] = useState([])
+
+    const handleGetLocation = async () => {
+        const data = await getLocationListApi()
+        setPoints(data)
+    }
 
     const sortLocationsByDistance = () => {
         return points
@@ -15,7 +21,10 @@ const NearLocaiton = ({ position }) => {
             .sort((a, b) => a.distance - b.distance);
     };
 
+    console.log(points)
+
     useEffect(() => {
+        handleGetLocation()
         const res = sortLocationsByDistance()
         setSortList(res)
     }, [position])
@@ -24,7 +33,7 @@ const NearLocaiton = ({ position }) => {
     return (
         <div>
             {sortList.map((location) => (
-                <LocationItem key={location.id} location={location}/>
+                <LocationItem key={location.id} location={location} />
             ))}
         </div>
     )
