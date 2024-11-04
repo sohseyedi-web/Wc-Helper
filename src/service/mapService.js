@@ -14,3 +14,7 @@ export const reverseGeoApi = async (lat, lng) => {
 
     return data;
 };
+
+export const showLocGoogleMap = (user, loc) => {
+    return `https://www.google.com/maps/dir/?api=1&origin=${user?.lat},${user?.lng}&destination=${loc.lat},${loc.lng}`
+}
