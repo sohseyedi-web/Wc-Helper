@@ -21,8 +21,6 @@ const NearLocaiton = ({ position }) => {
             .sort((a, b) => a.distance - b.distance);
     };
 
-    console.log(points)
-
     useEffect(() => {
         handleGetLocation()
         const res = sortLocationsByDistance()
@@ -31,7 +29,7 @@ const NearLocaiton = ({ position }) => {
 
 
     return (
-        <div>
+        <div className='flex items-baseline justify-between gap-x-2 flex-wrap'>
             {sortList.map((location) => (
                 <LocationItem key={location.id} location={location} />
             ))}
