@@ -18,17 +18,16 @@ const Location = () => {
         handleGetAddrss()
     }, [position])
 
-    console.log(address, position)
 
     return (
-        <div className="py-4">
-            {error ? error : (
-                <>
-                    <div>موقعیت مکانی شما : {address?.formatted_address}</div>
+        <>
+            {error ? <div className="text-lg font-semibold flex items-center justify-center min-h-screen">{error}</div> : (
+                <div className="py-3">
+                    <div className="my-2 px-2 py-3 bg-black rounded-lg">موقعیت مکانی شما : {address?.formatted_address}</div>
                     <NearLocaiton position={position} />
-                </>
+                </div>
             )}
-        </div>
+        </>
     )
 }
 
