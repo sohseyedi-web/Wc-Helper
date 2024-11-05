@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import useGeoLocation from "../../hooks/useGeoLocation";
 import { reverseGeoApi } from "../../service/mapService";
 import NearLocaiton from "./NearLocaiton";
+import { FaLocationCrosshairs } from "react-icons/fa6";
 
 const Location = () => {
 
@@ -23,7 +24,10 @@ const Location = () => {
         <>
             {error ? <div className="text-lg font-semibold flex items-center justify-center min-h-screen">{error}</div> : (
                 <div className="py-3">
-                    <div className="my-2 px-2 py-3 bg-black rounded-lg">موقعیت مکانی شما : {address?.formatted_address}</div>
+                    <div className="my-2 px-2 py-3 bg-black rounded-lg text-sm lg:text-base flex items-center gap-x-2">
+                        <FaLocationCrosshairs size={22} className="text-[#fefefe]" />
+                        <span>{address?.formatted_address}</span>
+                    </div>
                     <NearLocaiton position={position} />
                 </div>
             )}
