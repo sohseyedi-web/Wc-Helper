@@ -1,32 +1,28 @@
-import { useEffect, useState } from 'react'
-import { calculateDistance } from '../../utils/calcDistance'
+import { useEffect, useState } from 'react';
+import { calculateDistance } from '../../utils/calcDistance';
 import LocationItem from './LocationItem';
 import { getLocationListApi } from '../../service/locationService';
 
-const NearLocaiton = ({ position }) => {
-    const [sortList, setSortList] = useState([])
-    const [points, setPoints] = useState([])
+const NearLocation = ({ position }) => {
+    const [sortList, setSortList] = useState([]);
 
     const handleGetLocation = async () => {
-        const data = await getLocationListApi()
-        setPoints(data)
-    }
+        const data = await getLocationListApi();
 
-    const sortLocationsByDistance = () => {
-        return points
+        const sortedList = data
             .map((location) => ({
                 ...location,
                 distance: calculateDistance(position, location.coords),
             }))
             .sort((a, b) => a.distance - b.distance);
+        setSortList(sortedList);
     };
 
     useEffect(() => {
-        handleGetLocation()
-        const res = sortLocationsByDistance()
-        setSortList(res)
-    }, [position])
-
+        if (position) {
+            handleGetLocation();
+        }
+    }, [position]);
 
     return (
         <div className='flex items-baseline justify-between gap-x-2 flex-wrap'>
@@ -34,7 +30,7 @@ const NearLocaiton = ({ position }) => {
                 <LocationItem key={location.id} location={location} />
             ))}
         </div>
-    )
-}
+    );
+};
 
-export default NearLocaiton
+export default NearLocation;
