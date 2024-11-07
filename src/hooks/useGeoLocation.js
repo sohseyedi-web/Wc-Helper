@@ -19,15 +19,22 @@ export default function useGeoLocation() {
                 });
                 setIsLoading(false);
             },
+            
             (error) => {
                 if (error.code === error.PERMISSION_DENIED) {
-                    setError("دسترسی به موقعیت جغرافیایی رد شد.");
+                    setError("کاربر اجازه دسترسی به موقعیت مکانی را رد کرد.");
+                    setIsLoading(false);
+                } else if (error.code === error.POSITION_UNAVAILABLE) {
+                    setError("موقعیت مکانی در دسترس نیست.");
+                    setIsLoading(false);
+                } else if (error.code === error.TIMEOUT) {
+                    setError("درخواست موقعیت مکانی به زمان مجاز نرسید.");
                     setIsLoading(false);
                 } else {
-                    setError("خطایی در دریافت موقعیت رخ داده است.");
-                    setIsLoading(false);
+                    setError("خطای نامشخص:", error.message);
                 }
             }
+
         );
     }
 
