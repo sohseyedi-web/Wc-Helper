@@ -24,9 +24,9 @@ const Location = () => {
         <>
             {error ? <div className="text-lg font-semibold flex items-center justify-center min-h-screen">{error}</div> : (
                 <div className="py-3">
-                    <div className="my-2 px-2 py-3 bg-black rounded-lg text-sm lg:text-base flex items-center gap-x-2">
+                    <div className="my-2 px-2 py-3 bg-black rounded-lg lg:text-base flex items-center gap-x-2">
                         <FaLocationCrosshairs size={22} className="text-[#fefefe]" />
-                        <span>{address?.formatted_address}</span>
+                        <span className="text-sm">{address?.formatted_address}</span>
                     </div>
                     <NearLocaiton position={position} />
                 </div>
